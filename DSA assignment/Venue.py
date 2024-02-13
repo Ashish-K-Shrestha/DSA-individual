@@ -1,3 +1,4 @@
+# Qsn 1(a)
 def minCost(costs):
     if not costs or len(costs) == 0:
         return 0
