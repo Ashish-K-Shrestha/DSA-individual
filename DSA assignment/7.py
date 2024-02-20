@@ -1,6 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox
-from tkinter import filedialog
+from tkinter import messagebox, filedialog, simpledialog
 
 class User:
     def __init__(self, username, password):
@@ -32,6 +31,7 @@ class App:
 
     def __init__(self):
         self.current_user = None
+        self.labels = {}  # Dictionary to store label references
         self.setup_ui()
 
     def setup_ui(self):
@@ -63,10 +63,14 @@ class App:
         self.clear_frame()
 
         username_label = tk.Label(self.root, text=f"Username: {self.current_user.username}")
+        self.labels['username'] = username_label
 
         total_posts_label = tk.Label(self.root, text=f"Total Posts: {self.current_user.total_posts}   ")
         followers_label = tk.Label(self.root, text=f"Followers: {self.current_user.followers}   ")
         following_label = tk.Label(self.root, text=f"Following: {self.current_user.following}   ")
+        self.labels['total_posts'] = total_posts_label
+        self.labels['followers'] = followers_label
+        self.labels['following'] = following_label
 
         upload_image_button = tk.Button(self.root, text="Upload Image", command=self.upload_image)
         follow_button = tk.Button(self.root, text="Follow", command=self.follow_user)
@@ -129,9 +133,10 @@ class App:
             widget.destroy()
 
     def update_labels(self):
-        self.root.children["!label2"].config(text=f"Total Posts: {self.current_user.total_posts}   ")
-        self.root.children["!label3"].config(text=f"Followers: {self.current_user.followers}   ")
-        self.root.children["!label4"].config(text=f"Following: {self.current_user.following}   ")
+        if self.current_user:
+            self.labels['total_posts'].config(text=f"Total Posts: {self.current_user.total_posts}   ")
+            self.labels['followers'].config(text=f"Followers: {self.current_user.followers}   ")
+            self.labels['following'].config(text=f"Following: {self.current_user.following}   ")
 
     def run(self):
         self.root.geometry(f"{self.WINDOW_WIDTH}x{self.WINDOW_HEIGHT}")
